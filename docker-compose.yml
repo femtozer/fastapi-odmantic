@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+
+  api:
+    build: .
+    command:
+      [
+        'sh',
+        '-c',
+        # sleep so db has time to startup
+        'pip install debugpy && python -m debugpy --listen 0.0.0.0:5678 -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000'
+      ]
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
+      - 5678:5678
+    environment:
+      MONGO_CONNECTION_STRING: mongodb://mongo:mongo@db:27017/test
+    depends_on:
+      - db
+
+  db:
+    image: mongo:6.0.1
+    volumes:
+      - .mongodata:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: test

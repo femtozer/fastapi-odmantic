@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "fastapi-odmantic"
+version = "0.1.0"
+description = ""
+authors = ["femtozer <eliott.benoit@devoteamgcloud.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.85.0"
+odmantic = "^0.8.0"
+uvicorn = "^0.18.3"
+motor = "^3.0.0"
+python-dotenv = "^0.21.0"
+
+[tool.poetry.dev-dependencies]
+black = "^22.8.0"
+flake8 = "^5.0.4"
+mypy = "^0.971"
+isort = "^5.10.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+plugins = "pydantic.mypy"
+ignore_missing_imports = true
+disallow_untyped_defs = true
+
+[tool.black]
+line-length = 99 # override black's default line-length
+exclude = '(\.git|\.mypy_cache|\.tox|venv|\.venv|_build|buck-out|build|dist)'
+
+[tool.isort]
+profile = "black"
